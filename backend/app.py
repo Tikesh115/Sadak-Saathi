@@ -93,13 +93,10 @@ def video_feed():
     )
 
 
-@app.route('/detection_count')
+@app.route("/detection_count")
 def detection_count():
-    from detector import get_total_potholes
 
-    return jsonify({
-        "detections": get_total_potholes()
-    })
+    return jsonify(state)
 
 
 if __name__ == "__main__":
