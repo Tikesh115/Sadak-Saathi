@@ -1,8 +1,17 @@
+import os
 import firebase_admin
 from firebase_admin import credentials, firestore
 
-cred = credentials.Certificate("firebase-key.json")
+_KEY_PATH = os.path.join(os.path.dirname(__file__), "firebase-key.json")
 
-firebase_admin.initialize_app(cred)
+db = None
 
-db = firestore.client()
+if os.path.exists(_KEY_PATH):
+	cred = credentials.Certificate(_KEY_PATH)
+
+	if not firebase_admin._apps:
+		firebase_admin.initialize_app(cred)
+
+	db = firestore.client()
+else:
+	print(f"[firebase_config] Firebase key not found at {_KEY_PATH}. Continuing without Firestore.")

@@ -1,6 +1,16 @@
-import Link from "next/link";
+"use client";
+
+import useAuth from "@/hooks/useAuth";
 
 export default function Header() {
+  const { user, loading } = useAuth();
+
+  const rightMessage = loading
+    ? ""
+    : user
+      ? `Welcome, ${user.email}`
+      : "Citizen portal for pothole reporting";
+
   return (
     <header className="bg-white border-b-4 border-orange-500 shadow-sm">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between gap-4">
@@ -22,18 +32,11 @@ export default function Header() {
         </div>
 
         <div className="hidden md:flex items-center gap-3">
-          <Link
-            href="/login"
-            className="bg-blue-900 hover:bg-blue-800 text-white text-sm font-semibold px-4 py-2 rounded transition"
-          >
-            Login
-          </Link>
-          <Link
-            href="/register"
-            className="bg-orange-500 hover:bg-orange-600 text-white text-sm font-semibold px-4 py-2 rounded transition"
-          >
-            Register
-          </Link>
+          {!loading && (
+            <p className="text-sm font-semibold text-gray-700">
+              {rightMessage}
+            </p>
+          )}
         </div>
       </div>
     </header>

@@ -2,7 +2,25 @@
 
 import { FormEvent, useState } from "react";
 
-export default function UploadVideo() {
+export interface DetectionResponse {
+  detections?: unknown[];
+  frames?: number;
+  processedVideoURL?: string;
+  potholes?: number;
+  [key: string]: unknown;
+}
+
+interface UploadVideoProps {
+  onVideoSelected?: (payload: { file: File; videoURL: string }) => void;
+  onDetectionStateChange?: (loading: boolean) => void;
+  onDetectionComplete?: (result: DetectionResponse) => void;
+}
+
+export default function UploadVideo({
+  onVideoSelected,
+  onDetectionStateChange,
+  onDetectionComplete,
+}: UploadVideoProps) {
   const [video, setVideo] = useState<File | null>(null);
   const [gps, setGps] = useState<File | null>(null);
   const [loading, setLoading] = useState(false);
@@ -17,6 +35,7 @@ export default function UploadVideo() {
     }
 
     setLoading(true);
+    onDetectionStateChange?.(true);
     setMessage("Uploading and processing...");
 
     try {
@@ -26,22 +45,31 @@ export default function UploadVideo() {
         formData.append("gps", gps);
       }
 
-      const response = await fetch("http://127.0.0.1:5000/detect", {
+      const response = await fetch("http://localhost:5000/upload", {
         method: "POST",
         body: formData,
       });
 
-      const result = await response.json();
+      const result = (await response.json()) as DetectionResponse;
 
       if (!response.ok) {
-        throw new Error(result?.details || result?.error || "Detection failed");
+        const errorMessage =
+          typeof result?.details === "string"
+            ? result.details
+            : typeof result?.error === "string"
+              ? result.error
+              : "Detection failed";
+
+        throw new Error(errorMessage);
       }
 
-      setMessage(`Detection complete. Potholes found: ${result?.potholes ?? 0}`);
+      onDetectionComplete?.(result);
+      setMessage("Detection stream started. Live AI preview is now running.");
     } catch (error) {
       setMessage(error instanceof Error ? error.message : "Video upload failed");
     } finally {
       setLoading(false);
+      onDetectionStateChange?.(false);
     }
   };
 
@@ -59,7 +87,15 @@ export default function UploadVideo() {
             type="file"
             accept="video/*"
             className="w-full border border-gray-300 rounded px-3 py-2 text-sm bg-gray-50"
-            onChange={(e) => setVideo(e.target.files?.[0] ?? null)}
+            onChange={(e) => {
+              const selected = e.target.files?.[0] ?? null;
+              setVideo(selected);
+
+              if (selected) {
+                const videoURL = URL.createObjectURL(selected);
+                onVideoSelected?.({ file: selected, videoURL });
+              }
+            }}
             required
           />
         </div>
