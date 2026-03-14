@@ -13,7 +13,7 @@ A full-stack road-safety companion that detects potholes from uploaded videos an
 
 You can use the existing hero image:
 
-![Sadak Saathi Hero](public/assets/hero.png)
+
 
 ---
 
