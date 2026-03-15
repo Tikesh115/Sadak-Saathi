@@ -3,6 +3,7 @@ import '../styles/tailwind.css';
 import '../styles/App.css';
 import { Toaster } from 'sonner';
 
+
 export const metadata: Metadata = {
   title: 'PotholeAI — Autonomous Pothole Intelligence System',
   description: 'AI-powered road monitoring, pothole detection, and automated complaint generation for municipal authorities.',

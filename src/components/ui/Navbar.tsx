@@ -31,7 +31,7 @@ export default function Navbar() {
             {item.label}
           </Link>
         ))}
-
+        <Link href="/social-feed" className="text-sm font-semibold hover:text-yellow-300 transition">Social Feed</Link>
         {!loading && (
           <>
             {user ? (
@@ -44,7 +44,7 @@ export default function Navbar() {
                 </Link>
                 <button
                   onClick={handleLogout}
-                  className="text-sm font-semibold hover:text-orange-300 transition"
+                  className="ml-auto text-sm font-semibold hover:text-orange-300 transition"
                 >
                   Logout
                 </button>

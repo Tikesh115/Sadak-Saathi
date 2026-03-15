@@ -167,10 +167,9 @@ export default function PotholeMap() {
           </div>
           <button
             onClick={() => setShowHeatmap(!showHeatmap)}
-            className={`flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-lg border transition-all duration-150 ${
-              showHeatmap
-                ? 'bg-primary/15 border-primary/40 text-primary' :'border-border text-muted-foreground hover:text-text hover:bg-surface-elevated'
-            }`}
+            className={`flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-lg border transition-all duration-150 ${showHeatmap
+                ? 'bg-primary/15 border-primary/40 text-primary' : 'border-border text-muted-foreground hover:text-text hover:bg-surface-elevated'
+              }`}
           >
             <Layers size={14} />
             Heatmap
@@ -218,7 +217,7 @@ export default function PotholeMap() {
           {[
             { icon: ZoomIn, label: 'Zoom in', action: () => (leafletMapRef.current as { zoomIn?: () => void })?.zoomIn?.() },
             { icon: ZoomOut, label: 'Zoom out', action: () => (leafletMapRef.current as { zoomOut?: () => void })?.zoomOut?.() },
-            { icon: Maximize2, label: 'Fit all markers', action: () => {} },
+            { icon: Maximize2, label: 'Fit all markers', action: () => { } },
           ].map(({ icon: Icon, label, action }) => (
             <button
               key={label}

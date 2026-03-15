@@ -12,7 +12,7 @@ export default function Ticker({ message = defaultMessage }: TickerProps) {
         <span className="bg-orange-500 text-white text-xs font-bold px-2 py-1 rounded whitespace-nowrap">
           Latest Updates
         </span>
-        <div className="overflow-hidden whitespace-nowrap text-sm text-blue-900 font-medium">
+        <div className="overflow-hidden w-full whitespace-nowrap text-sm text-blue-900 font-medium">
           <span className="inline-block animate-marquee">{message}</span>
         </div>
       </div>
