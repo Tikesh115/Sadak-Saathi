@@ -9,12 +9,6 @@ A full-stack road-safety companion that detects potholes from uploaded videos an
 
 ---
 
-## Demo / Screenshots
-
-You can use the existing hero image:
-
-
-
 ---
 
 ## Features
